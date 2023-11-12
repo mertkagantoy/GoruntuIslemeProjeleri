@@ -1,0 +1,2 @@
+# GoruntuIslemeProjeleri
+ BilgisayarMuhendisligiGoruntuIslemeDersi
