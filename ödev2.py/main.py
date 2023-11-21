@@ -2,34 +2,35 @@ import cv2
 import numpy as np
 
 # Kamera başlatma
-cap = cv2.VideoCapture(0)
+kamera = cv2.VideoCapture(0)
 
 while True:
     # Kameradan bir çerçeve al
-    _, frame = cap.read()
+    _, kare = kamera.read()
 
     # RGB'den HSV'ye dönüştürme
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    hsv = cv2.cvtColor(kare, cv2.COLOR_BGR2HSV)
 
-    # Kırmızı renk aralığını belirleme
-    lower_red = np.array([0, 100, 100])
-    upper_red = np.array([10, 255, 255])
+    # Kırmızı renk aralığını belirleme (Alt ve üst sınırlar)
+    alt_kirmizi = np.array([0, 100, 100])
+    ust_kirmizi = np.array([10, 255, 255])
 
     # HSV görüntüsündeki kırmızı renk aralığını maskeleme
-    mask = cv2.inRange(hsv, lower_red, upper_red)
+    maske = cv2.inRange(hsv, alt_kirmizi, ust_kirmizi)
 
-    # Görüntü ve maskeyi birleştirme
-    result = cv2.bitwise_and(frame, frame, mask=mask)
+    # Görüntü ve maskeyi birleştirme (Kırmızı renge odaklanma)
+    sonuc = cv2.bitwise_and(kare, kare, mask=maske)
 
-    # Sonuçları gösterme
-    cv2.imshow('Original', frame)
-    cv2.imshow('Mask', mask)
-    cv2.imshow('Result', result)
+    # Orijinal görüntüyü gösterme
+    cv2.imshow('Orijinal', kare)
+
+    # Kırmızı renge odaklanmış sonuç görüntüsünü gösterme
+    cv2.imshow('Sonuç', sonuc)
 
     # Çıkış için 'q' tuşuna basma kontrolü
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 # Kamerayı kapatma
-cap.release()
+kamera.release()
 cv2.destroyAllWindows()
